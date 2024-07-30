@@ -13,12 +13,10 @@ import java.util.TreeSet;
 public final class UI {
     private static final Set<Produto> produtos = new HashSet<>();
     private static final String user = System.getProperty("user.name");
-    private static final File path = new File(System.getProperty("user.dir") + "\\market_products.txt");
+    private static final File path = new File("src//market_products.txt");
 
     public static void front() throws IOException, InterruptedException {
         int escolha;
-        criarEstoque();
-
         do {
             clearScreen();
             mostrarMenu();
@@ -189,45 +187,5 @@ public final class UI {
             System.out.println("ADICIONADO AO CARRINHO!");
             Thread.sleep(1000);
         }
-    }
-
-    public static void criarEstoque() {
-        File outputFile = procurarArquivo(new File(System.getProperty("user.home") + "\\OneDrive\\Documetos"), "\\estoqueProdutos.txt");
-        if (outputFile == null) {
-            outputFile = new File(System.getProperty("user.home") + "\\Downloads\\estoqueProdutos.txt");
-        }
-
-        try (BufferedReader br = new BufferedReader(new FileReader(path));
-             BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile, true))) {
-            String line = br.readLine();
-            while (line != null) {
-                bw.write(line);
-                bw.newLine();
-
-                line = br.readLine();
-            }
-        }
-        catch (Exception e) {
-            System.out.println("ERROR: " + e.getMessage());
-        }
-    }
-
-    public static File procurarArquivo(File dir, String fileNameToFind) {
-        if (dir.isDirectory()) {
-            File[] files = dir.listFiles();
-            if (files != null) {
-                for (File file : files) {
-                    if (file.isDirectory()) {
-                        File found = procurarArquivo(file, fileNameToFind);
-                        if (found != null) {
-                            return found;
-                        }
-                    } else if (fileNameToFind.equals(file.getName())) {
-                        return file;
-                    }
-                }
-            }
-        }
-        return null;
     }
 }
